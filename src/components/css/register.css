@@ -1,0 +1,19 @@
+/* Color for the progress bar depending on strength */
+.progress-bar.weak {
+    background-color: #dc3545; /* Red */
+  }
+  
+  .progress-bar.medium {
+    background-color: #fd7e14; /* Orange */
+  }
+  
+  .progress-bar.strong {
+    background-color: #28a745; /* Green */
+  }
+  
+  .strength-bar {
+    height: 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+  
