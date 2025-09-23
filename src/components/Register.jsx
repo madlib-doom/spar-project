@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './css/register.css'; // We'll define styles separately
 import axios from 'axios';
 import Loader from './Loader';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -162,8 +163,8 @@ const Register = () => {
 
             <button className='btn btn-outline-success'>Submit</button>
 
-            <h4 className='text-center text-info'>Have an accout?</h4>
-            {/* <Link to="/Signin"><button className='btn btn-primary'>Login</button></Link> */}
+            <h4 className='text-center text-warning'>Have an accout?</h4>
+     <Link to="/signin"><button className='btn btn-outline-success'>Login</button></Link>
             
 
            

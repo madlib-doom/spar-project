@@ -80,7 +80,7 @@ const Signin = () => {
 
                     <button type='submit' className='btn btn-outline-warning'>Login</button><br /><br />
 
-                    <h4 className='text-center text-info'> Don't have an account?</h4>br
+                    <h4 className='text-center text-info'> Don't have an account?</h4> <br />
                     <Link to="/Signup"><button className='btn btn-success'>Create one</button></Link>
                     
 
