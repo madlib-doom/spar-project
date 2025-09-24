@@ -1,10 +1,11 @@
+// ProductDetails.jsx
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const ProductDetails = () => {
   const { state } = useLocation();
   const products = state?.products;
-  const img_url = "https://rexkinoo.pythonanywhere.com/static/images/";
+  const imgUrl = "https://rexkinoo.pythonanywhere.com/static/images/";
 
   const [quantity, setQuantity] = useState(1);
   const [cartMessage, setCartMessage] = useState("");
@@ -12,15 +13,12 @@ const ProductDetails = () => {
 
   const navigate=useNavigate("")
 
-  if (!products) {
-    return <p>No products found.</p>;
-  }
-
-  // Update total when quantity or price changes
+  // Always call hooks at the top level
   useEffect(() => {
+    if (!products) return;
     const cost = parseFloat(products.product_cost);
     setTotalCost(quantity * cost);
-  }, [quantity, products.product_cost]);
+  }, [quantity, products]);
 
   const handleAddToCart = () => {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -44,13 +42,17 @@ const ProductDetails = () => {
     setQuantity(prev => (prev > 1 ? prev - 1 : 1));
   };
 
+  if (!products) {
+    return <p>No products found.</p>;
+  }
+
   return (
     <div className="container mt-4">
       <div className="row">
         {/* Product Image */}
         <div className="col-md-5">
           <img 
-            src={img_url + products.product_photo} 
+            src={`${imgUrl}${products.product_photo}`} 
             alt={products.product_name} 
             className="img-fluid rounded"
           />
@@ -62,31 +64,43 @@ const ProductDetails = () => {
           <p>{products.product_description}</p>
           <h4 className="text-danger">Ksh. {products.product_cost}</h4>
 
-          {/* Quantity Selector with + / - */}
+          {/* Quantity Selector */}
           <div className="mb-3 mt-3">
             <label className="form-label">Quantity</label>
             <div className="input-group w-50">
-              <button className="btn btn-outline-secondary" onClick={decrementQty}>-</button>
-              <input 
+              <button 
+                className="btn btn-outline-secondary" 
+                onClick={decrementQty}
+              >
+                -
+              </button>
+              <input
                 type="number"
                 min="1"
                 className="form-control text-center"
                 value={quantity}
                 onChange={(e) => {
-                  const value = parseInt(e.target.value);
+                  const value = parseInt(e.target.value, 10);
                   if (!isNaN(value) && value > 0) {
                     setQuantity(value);
                   }
                 }}
               />
-              <button className="btn btn-outline-secondary" onClick={incrementQty}>+</button>
+              <button 
+                className="btn btn-outline-secondary" 
+                onClick={incrementQty}
+              >
+                +
+              </button>
             </div>
           </div>
 
           {/* Total Cost */}
           <div className="mb-3">
             <strong>Total Cost: </strong>
-            <span className="text-primary">Ksh. {totalCost.toFixed(2)}</span>
+            <span className="text-primary">
+              Ksh. {totalCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+            </span>
           </div>
 
           {/* Add to Cart Button */}
@@ -98,7 +112,9 @@ const ProductDetails = () => {
           </button>
 
           {/* Feedback */}
-          {cartMessage && <p className="text-success mt-3">{cartMessage}</p>}
+          {cartMessage && (
+            <p className="text-success mt-3">{cartMessage}</p>
+          )}
         </div>
       </div>
     </div>
