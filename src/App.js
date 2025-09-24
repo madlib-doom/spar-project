@@ -10,6 +10,10 @@ import Register from './components/Register';
 import Store from './components/Store';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Mpesapayment from './components/Mpesapayment';
+import ProductDetails from './components/Productdetails';
+import Aboutus from './components/Aboutus';
+
 
 function App() {
   return (
@@ -25,6 +29,10 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='*' element={<Notfound/>}/>
           <Route path='/addproducts' element={<Store/>}/>
+          <Route path='/mpesapayment' element={<Mpesapayment/>}/>
+          <Route path='/productdetails' element={<ProductDetails/>}/>
+          <Route path="/about" element={<Aboutus/>}/>
+          
         
         </Routes>
         <Footer/>
