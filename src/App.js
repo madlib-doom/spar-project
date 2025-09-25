@@ -13,6 +13,9 @@ import Footer from './components/Footer';
 import Mpesapayment from './components/Mpesapayment';
 import ProductDetails from './components/Productdetails';
 import Aboutus from './components/Aboutus';
+import ContactUs from './components/ContactUs';
+import Cart from './components/Cart';
+import Products from './components/Products';
 
 
 function App() {
@@ -32,6 +35,9 @@ function App() {
           <Route path='/mpesapayment' element={<Mpesapayment/>}/>
           <Route path='/productdetails' element={<ProductDetails/>}/>
           <Route path="/about" element={<Aboutus/>}/>
+          <Route path='/Contactus' element={<ContactUs/>}/>
+          <Route path='/cart' element={<Cart/>}/>
+          <Route path='/products' element={<Products/>}/>
           
         
         </Routes>

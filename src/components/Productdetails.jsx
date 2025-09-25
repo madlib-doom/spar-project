@@ -1,120 +1,95 @@
-// ProductDetails.jsx
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const ProductDetails = () => {
   const { state } = useLocation();
-  const products = state?.products;
-  const imgUrl = "https://rexkinoo.pythonanywhere.com/static/images/";
+  const product = state?.products;
 
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
-  const [cartMessage, setCartMessage] = useState("");
   const [totalCost, setTotalCost] = useState(0);
 
-  const navigate=useNavigate("")
+  const imgUrl = "https://rexkinoo.pythonanywhere.com/static/images/";
 
-  // Always call hooks at the top level
   useEffect(() => {
-    if (!products) return;
-    const cost = parseFloat(products.product_cost);
-    setTotalCost(quantity * cost);
-  }, [quantity, products]);
+    if (product) {
+      const cost = parseFloat(product.product_cost);
+      setTotalCost(cost * quantity);
+    }
+  }, [product, quantity]);
 
   const handleAddToCart = () => {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const existingItemIndex = cart.findIndex(item => item.id === products.id);
+    const existingIndex = cart.findIndex(item => item.id === product.id);
 
-    if (existingItemIndex >= 0) {
-      cart[existingItemIndex].quantity += quantity;
+    if (existingIndex >= 0) {
+      cart[existingIndex].quantity += quantity;
     } else {
-      cart.push({ ...products, quantity });
+      cart.push({ ...product, quantity });
     }
 
     localStorage.setItem('cart', JSON.stringify(cart));
-    setCartMessage("Product added to cart!");
+    navigate('/cart'); // go to cart after adding
   };
 
-  const incrementQty = () => {
-    setQuantity(prev => prev + 1);
-  };
+  const increment = () => setQuantity(prev => prev + 1);
+  const decrement = () => setQuantity(prev => (prev > 1 ? prev - 1 : 1));
 
-  const decrementQty = () => {
-    setQuantity(prev => (prev > 1 ? prev - 1 : 1));
-  };
-
-  if (!products) {
-    return <p>No products found.</p>;
+  if (!product) {
+    return <div className="container mt-5"><h4>No product found.</h4></div>;
   }
 
   return (
-    <div className="container mt-4">
-      <div className="row">
+    <div className="container mt-5">
+      <div className="row g-4">
         {/* Product Image */}
         <div className="col-md-5">
-          <img 
-            src={`${imgUrl}${products.product_photo}`} 
-            alt={products.product_name} 
-            className="img-fluid rounded"
+          <img
+            src={`${imgUrl}${product.product_photo}`}
+            alt={product.product_name}
+            className="img-fluid rounded shadow"
           />
         </div>
 
-        {/* Product Details */}
+        {/* Product Info */}
         <div className="col-md-7">
-          <h2>{products.product_name}</h2>
-          <p>{products.product_description}</p>
-          <h4 className="text-danger">Ksh. {products.product_cost}</h4>
+          <h2>{product.product_name}</h2>
+          <p>{product.product_description}</p>
+          <h4 className="text-danger">Ksh. {parseFloat(product.product_cost).toLocaleString()}</h4>
 
           {/* Quantity Selector */}
-          <div className="mb-3 mt-3">
+          <div className="mt-3 mb-3">
             <label className="form-label">Quantity</label>
             <div className="input-group w-50">
-              <button 
-                className="btn btn-outline-secondary" 
-                onClick={decrementQty}
-              >
-                -
-              </button>
+              <button className="btn btn-outline-secondary" onClick={decrement}>-</button>
               <input
                 type="number"
                 min="1"
                 className="form-control text-center"
                 value={quantity}
                 onChange={(e) => {
-                  const value = parseInt(e.target.value, 10);
+                  const value = parseInt(e.target.value);
                   if (!isNaN(value) && value > 0) {
                     setQuantity(value);
                   }
                 }}
               />
-              <button 
-                className="btn btn-outline-secondary" 
-                onClick={incrementQty}
-              >
-                +
-              </button>
+              <button className="btn btn-outline-secondary" onClick={increment}>+</button>
             </div>
           </div>
 
           {/* Total Cost */}
           <div className="mb-3">
-            <strong>Total Cost: </strong>
-            <span className="text-primary">
+            <strong>Total Cost:</strong>
+            <span className="text-primary ms-2">
               Ksh. {totalCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}
             </span>
           </div>
 
-          {/* Add to Cart Button */}
-          <button 
-            className="btn btn-success"
-            onClick={()=>navigate("/mpesapayment")}
-          >
+          {/* Add to Cart */}
+          <button className="btn btn-success btn-lg" onClick={handleAddToCart}>
             Add to Cart
           </button>
-
-          {/* Feedback */}
-          {cartMessage && (
-            <p className="text-success mt-3">{cartMessage}</p>
-          )}
         </div>
       </div>
     </div>

@@ -55,3 +55,17 @@
 .carousel-images{
   height: 400px;
 }
+.hero-slide {
+  transition: all 0.5s ease-in-out;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.carousel-inner {
+  border-radius: 10px;
+}
+.img_card{
+height: 200px;
+}
+
+
