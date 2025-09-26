@@ -45,7 +45,7 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="text-center mt-4 border-top pt-3">
-          <p className="mb-0">&copy; {new Date().getFullYear()} EngineShop. Developed by Aaron.All rights reserved . 🚀</p>
+          <p className="mb-0">&copy; {new Date().getFullYear()} EngineShop. Developed by Aaron Plimo.All rights reserved &trade; . 🚀</p>
         </div>
       </div>
     </footer>
