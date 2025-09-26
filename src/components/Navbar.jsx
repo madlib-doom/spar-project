@@ -1,64 +1,61 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import './css/Navbar.css'; // 👈 import your custom CSS
 
-const Navbar = () => {
+const AppNavbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken');
+    navigate('/signin');
+  };
+
   return (
-    <nav className='navbar navbar-expand-md navbar-light bg-dark shadow-sm mt-1'>
-      {/* Navbar logo/brand */}
-      <Link to="/" className='navbar-brand fw-bold m-2'>
-        Auto<span className='text-success'>Mart</span>
-      </Link>
+    <Navbar expand="md" bg="dark" variant="dark" className="shadow-sm mt-1">
+      <Container>
+        {/* Brand/Logo */}
+        <Navbar.Brand as={Link} to="/" className="fw-bold">
+          Auto<span className="text-success">Mart</span>
+        </Navbar.Brand>
 
-      {/* Toggle button */}
-      <button
-        className='navbar-toggler'
-        type='button'
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarcontents"
-      >
-        <span className='navbar-toggler-icon'></span>
-      </button>
+        <Navbar.Toggle aria-controls="navbar-nav" />
 
-      {/* Navbar links */}
-      <div id="navbarcontents" className='collapse navbar-collapse'>
-        <ul className='navbar-nav me-auto'>
-          <li className='nav-item'>
-            <b><Link to="/" className='nav-link text-warning'>Home</Link></b>
-          </li>
-          <li className='nav-item'>
-            <b><Link to="/addproducts" className='nav-link text-warning'>Sell</Link></b>
-          </li>
-          <li className='nav-item'>
-            <b><Link to="/products" className='nav-link text-warning'>Shop</Link></b>
-          </li>
-        </ul>
+        <Navbar.Collapse id="navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/" className="text-warning fw-bold">Home</Nav.Link>
+            <Nav.Link as={Link} to="/addproducts" className="text-warning fw-bold">Sell</Nav.Link>
+            <Nav.Link as={Link} to="/products" className="text-warning fw-bold">Shop</Nav.Link>
+          </Nav>
 
-        {/* Right-aligned links */}
-        <ul className='navbar-nav ms-auto'>
-          <li className='nav-item'>
-            <b><Link to="/signin" className='nav-link text-warning'>Signin</Link></b>
-          </li>
-          <li className='nav-item'>
-            <b><Link to="/signup" className='nav-link text-warning'>Signup</Link></b>
-          </li>
-          <li className='nav-item'>
-            <b><Link to="/about" className='nav-link text-warning'>About us</Link></b>
-          </li>
+          <Nav className="ms-auto">
+            {/* Account Dropdown */}
+            <NavDropdown
+              title={<span className="account-link">Account</span>}
+              id="account-dropdown"
+              align="end"
+              className="account-dropdown"
+            >
+              <NavDropdown.Item as={Link} to="/profile">Profile</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/Signin">Signin</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/Signup">Signup</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+            </NavDropdown>
 
-          {/* 🛒 Cart icon link */}
-          <li className='nav-item'>
-            <Link to="/cart" className='nav-link'>
+            {/* Cart Icon */}
+            <Nav.Link as={Link} to="/cart">
               <img
-                src="/images/cart.png" // <-- Adjust this path based on where your image is located
+                src="/images/cart.png"
                 alt="Cart"
                 style={{ width: '30px', height: '30px' }}
               />
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  )
-}
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
+};
 
-export default Navbar
+export default AppNavbar;

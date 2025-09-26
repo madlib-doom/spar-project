@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
@@ -95,33 +96,39 @@ const Home = () => {
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
           {/* Part 1 */}
           <div className="col">
-            <div className="card h-100 bg-secondary text-white text-center border-0 shadow">
-              <img src="images/parts/wheel.png" className="card-img-top p-4" alt="Alloy Wheels" />
-              <div className="card-body">
-                <h5 className="card-title">Alloy Wheels</h5>
-              </div>
-            </div>
+      <Link to="/products" className="card-link">
+        <div className="card h-100 bg-secondary text-white text-center border-0 shadow product-card">
+          <img src="images/parts/wheel.png" className="card-img-top p-4" alt="Suspension" />
+          <div className="card-body">
+            <h5 className="card-title">Wheels</h5>
           </div>
+        </div>
+      </Link>
+    </div>
 
           {/* Part 2 */}
           <div className="col">
-            <div className="card h-100 bg-secondary text-white text-center border-0 shadow">
-              <img src="images/parts/engine.png" className="card-img-top p-4" alt="Engine Parts" />
-              <div className="card-body">
-                <h5 className="card-title">Engine Parts</h5>
-              </div>
-            </div>
+      <Link to="/products" className="card-link">
+        <div className="card h-100 bg-secondary text-white text-center border-0 shadow product-card">
+          <img src="images/parts/engine.png" className="card-img-top p-4" alt="Suspension" />
+          <div className="card-body">
+            <h5 className="card-title">Engine</h5>
           </div>
+        </div>
+      </Link>
+    </div>
 
           {/* Part 3 */}
           <div className="col">
-            <div className="card h-100 bg-secondary text-white text-center border-0 shadow">
-              <img src="images/parts/suspension.png" className="card-img-top p-4" alt="Suspension" />
-              <div className="card-body">
-                <h5 className="card-title">Suspension</h5>
-              </div>
-            </div>
+      <Link to="/products" className="card-link">
+        <div className="card h-100 bg-secondary text-white text-center border-0 shadow product-card">
+          <img src="images/parts/suspension.png" className="card-img-top p-4" alt="Suspension" />
+          <div className="card-body">
+            <h5 className="card-title">Suspension</h5>
           </div>
+        </div>
+      </Link>
+    </div>
 
           {/* Add more parts as needed */}
         </div>

@@ -16,13 +16,15 @@ import Aboutus from './components/Aboutus';
 import ContactUs from './components/ContactUs';
 import Cart from './components/Cart';
 import Products from './components/Products';
+import Profile from './components/Profile';
+import Account from './components/Account';
 
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-       <h1>Engines  shop</h1>
+       <h1>Auto Mart</h1>
        </header>
        <Router>
         <Navbar/>
@@ -38,6 +40,8 @@ function App() {
           <Route path='/Contactus' element={<ContactUs/>}/>
           <Route path='/cart' element={<Cart/>}/>
           <Route path='/products' element={<Products/>}/>
+          <Route path='/profile' element={<Profile/>}/>
+          <Route path='/account' element={<Account/>}/>
           
         
         </Routes>

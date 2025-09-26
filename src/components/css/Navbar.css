@@ -1,0 +1,39 @@
+/* Show dropdown on hover */
+.account-dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+  }
+  
+  /* Base Account link style */
+  .account-dropdown .account-link {
+    color: #ffc107; /* Bootstrap warning color */
+    font-weight: 500;
+    transition: transform 0.3s ease, color 0.3s ease;
+    display: inline-block;
+    text-decoration: none; /* 🚫 remove underline */
+  }
+  
+  /* On hover: scale and color change */
+  .account-dropdown:hover .account-link {
+    color: orange;
+    transform: scale(1.1); /* 🔍 scale up */
+  }
+  
+  /* Dropdown menu style */
+  .account-dropdown .dropdown-menu {
+    background-color: #222; /* Dark dropdown background */
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Dropdown items style */
+  .account-dropdown .dropdown-item {
+    color: #f8f9fa; /* Light text */
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .account-dropdown .dropdown-item:hover {
+    background-color: #ffc107; /* Orange background */
+    color: #212529; /* Dark text on hover */
+  }
+  
