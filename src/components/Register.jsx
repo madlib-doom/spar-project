@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import './css/register.css'; // We'll define styles separately
+import './css/register.css';
 import axios from 'axios';
 import Loader from './Loader';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -11,6 +13,8 @@ const Register = () => {
   const [phone, setPhone] = useState("");
   const [passwordSuggestion, setPasswordSuggestion] = useState("");
   const [strength, setStrength] = useState({ label: '', score: 0 });
+
+  const navigate = useNavigate();
 
   const generateStrongPassword = () => {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+';
@@ -50,13 +54,11 @@ const Register = () => {
     }
   };
 
-  const [loading,setLoading]=useState(false)
-  const [success,setSuccess]=useState("")
-  const [error,setError]=useState("")
+  const [loading, setLoading] = useState(false);
 
-  const submit= async (e)=>{
-    e.preventDefault()
-    setLoading(true)
+  const submit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
     const data = new FormData();
     data.append('username', username);
@@ -64,36 +66,56 @@ const Register = () => {
     data.append('phone', phone);
     data.append('password', password);
 
-    try{
-        const response= await axios.post("https://aarondev.pythonanywhere.com/api/signup",data)
-        setLoading(false)
-        setSuccess(response.data.message)
+    try {
+      const response = await axios.post("https://aarondev.pythonanywhere.com/api/signup", data);
+      setLoading(false);
 
-        setUsername('')
-        setPassword('')
-        setEmail('')
-        setPhone('')
+      const message = response.data.message;
+      // console.log("Server response:", response.data);
 
+
+      if (message === "Users registered succcesfully") {
+        toast.success("🎉 Registered successfully! Redirecting to login...", {
+          position: "top-right",
+          autoClose: 2000,
+        });
+
+        setTimeout(() => {
+          navigate("/signin");
+        }, 2500);
+      } else {
+        toast.error(message || "Registration failed", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+      }
+
+      // Clear form fields
+      setUsername('');
+      setPassword('');
+      setEmail('');
+      setPhone('');
+    } catch (error) {
+      console.error("Signup error:", error);
+      setLoading(false);
+      toast.error("❌ An error occurred. Please try again later.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
-    catch(error){
-        setLoading(false)
-        setError("An error occured plase try again later...")
-    }
+  };
+  // console.log("Server response:", response.data);
 
-  }
 
   return (
     <div>
+      <ToastContainer />
       <div className="row justify-content-center mt-2">
         <div className="col-md-6 card shadow p-4">
-          <h1 className='text-center text-info'>Registration form</h1> <br />
-          {loading && <Loader/>}
+          <h1 className='text-center text-info'>Registration Form</h1> <br />
+          {loading && <Loader />}
 
-        
-          {success && <div className="alert alert-success">{success}</div>}
-          {error && <div className="alert alert-danger">{error}</div>}
-
-          <form  onSubmit={submit}>
+          <form onSubmit={submit}>
             <label>Enter your username:</label> <br />
             <input
               type="text"
@@ -161,13 +183,12 @@ const Register = () => {
             />
             <br />
 
-            <button className='btn btn-outline-success'>Submit</button>
+            <button className='btn btn-outline-success' disabled={loading}>
+              Submit
+            </button>
 
-            <h4 className='text-center text-warning'>Have an accout?</h4>
-     <Link to="/signin"><button className='btn btn-outline-success'>Login</button></Link>
-            
-
-           
+            <h4 className='text-center text-warning mt-3'>Already have an account?</h4>
+            <Link to="/signin"><button className='btn btn-outline-info'>Login</button></Link>
           </form>
         </div>
       </div>
