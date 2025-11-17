@@ -1,7 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Account = () => {
+  const navigate=useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("cart")
+    navigate("/");
+  };
+  
   return (
     <div className="container mt-5">
       <h2>Account Dashboard</h2>
@@ -11,7 +19,9 @@ const Account = () => {
         <li><Link to="/profile">View Profile</Link></li>
         <li><Link to="/Signin">Login</Link></li>
         <li><Link to="/Signup">Register</Link></li>
-        <li><Link to="/logout">Logout</Link></li>
+       
+        <button onClick={handleLogout}>Logout</button>
+
       </ul>
     </div>
   );

@@ -43,25 +43,15 @@ const Store = () => {
    
      
   return (
-    <div>
+    <div className='bg-dark '>
         <h1 className='Dembele'>Welcome to Autmarts Autmobile shop</h1>
         <p className='Dembele'>Your one stop shop for quality engines</p>
 
 
         <div className="row">
-            <div className="col-md-4">
-            <h1>🎊💥 Get a MASSIVE 50% Discount on Every Product Over Ksh.30,000! 🤑🛒</h1><br />
-
-<h3 className='text-danger'>
-  🚨 Heads up! Products shouldn't be *too* old ⌛ (keep it fresh 😉) or they might get rejected 🙅‍♂️.  
-  Be cool 😎 and let others know about any damages 🔍🔧 so they can fix it like a pro 🛠️💪.
-</h3>
-
-<h1 className='text-success'>🎈🎁 Happy Trading🚀💃🕺</h1>
-
-            </div>
-     
-
+          <div className="col-md-2"></div>
+          
+            
         <div className="col-md-8 justify-content-center mt-4">
             <div className="card shadow p-4">
                 <h6>Add your products here</h6>
@@ -110,6 +100,7 @@ onChange={(e)=>setPhoto(e.target.files[0])}/> <br />
             </div>
 
         </div>
+        <div className="col-md-2"></div>
         </div>
     </div>
   )

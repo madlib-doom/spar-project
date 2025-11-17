@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
-import './css/Navbar.css'; // 👈 import your custom CSS
+import './css/Navbar.css';
 
 const AppNavbar = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  // Load user info from localStorage
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) setUser(storedUser);
+  }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    navigate('/signin');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("cart");
+    setUser(null); // reset state
+    navigate("/");
   };
 
   return (
@@ -20,7 +30,6 @@ const AppNavbar = () => {
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="navbar-nav" />
-
         <Navbar.Collapse id="navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/" className="text-warning fw-bold">Home</Nav.Link>
@@ -29,19 +38,37 @@ const AppNavbar = () => {
           </Nav>
 
           <Nav className="ms-auto">
-            {/* Account Dropdown */}
-            <NavDropdown
-              title={<span className="account-link">Account</span>}
-              id="account-dropdown"
-              align="end"
-              className="account-dropdown"
-            >
-              <NavDropdown.Item as={Link} to="/profile">Profile</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/Signin">Signin</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/Signup">Signup</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
-            </NavDropdown>
+            {user ? (
+              <>
+                {/* Welcome message */}
+                <span className="text-primary  me-3">Welcome, {user.user_name}!</span>
+                
+                {/* Profile / Logout Dropdown */}
+                <NavDropdown
+                  title="Account"
+                  id="account-dropdown"
+                  align="end"
+                  className="account-dropdown"
+                >
+                  <NavDropdown.Item as={Link} to="/profile">Profile</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+                </NavDropdown>
+              </>
+            ) : (
+              <>
+                {/* Show Signin/Signup if not logged in */}
+                <NavDropdown
+                  title="Account"
+                  id="account-dropdown"
+                  align="end"
+                  className="account-dropdown"
+                >
+                  <NavDropdown.Item as={Link} to="/Signin">Signin</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/Signup">Signup</NavDropdown.Item>
+                </NavDropdown>
+              </>
+            )}
 
             {/* Cart Icon */}
             <Nav.Link as={Link} to="/cart">

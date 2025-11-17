@@ -178,6 +178,7 @@ const Register = () => {
               className='form-control'
               placeholder='Enter your phone number here'
               required
+              
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
             />
