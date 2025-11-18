@@ -40,8 +40,7 @@ const AppNavbar = () => {
           <Nav className="ms-auto">
             {user ? (
               <>
-                {/* Welcome message */}
-                <span className="text-primary  me-3">Welcome, {user.user_name}!</span>
+               
                 
                 {/* Profile / Logout Dropdown */}
                 <NavDropdown

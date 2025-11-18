@@ -11,7 +11,7 @@ const pairs = [
       ]],
       ["how are you\\??", ["I'm doing great, thanks for asking!", "I'm good, how about you?"]],
       ["I'm fine\\.\\? What about you\\??", ["I'm fine too. Thanks for asking. What are you up to today?"]],
-      ["I am interested in buying some parts for my car|What products do you offer", [
+      ["I am interested in buying some parts for my car|What products do you offer|What do you deal in", [
         "We offer a wide range of vehicle auto parts. Can you be more specific?"
       ]],
       ["(.*)(Autopart\\s|What services do you offer )(.*)", [
@@ -117,7 +117,7 @@ const Chatbot = () => {
     placeholder="Type your message..."
   />
   <button onClick={() => handleUserMessage(input)} className="send-btn">
-    ✈️
+    <img src="images/download.png" alt="" className="d-block w-100"/>
   </button>
 </div>
 

@@ -117,4 +117,9 @@
   .chatbot-input button.send-btn:hover {
     background: #45a049;
   }
+  .card-img{
+    height: 100px;
+    width: 200px;
+    padding: auto;
+  }
   

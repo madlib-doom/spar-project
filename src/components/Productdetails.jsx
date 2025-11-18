@@ -9,6 +9,9 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [totalCost, setTotalCost] = useState(0);
 
+  // Toast state
+  const [showToast, setShowToast] = useState(false);
+
   const imgUrl = "https://rexkinoo.pythonanywhere.com/static/images/";
 
   useEffect(() => {
@@ -20,16 +23,34 @@ const ProductDetails = () => {
 
   const handleAddToCart = () => {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const existingIndex = cart.findIndex(item => item.id === product.id);
+
+    // Fix: use product_id field, not id
+    const existingIndex = cart.findIndex(
+      item => item.product_id === product.product_id
+    );
 
     if (existingIndex >= 0) {
+      // Increase quantity
       cart[existingIndex].quantity += quantity;
     } else {
-      cart.push({ ...product, quantity });
+      // Add new product to cart
+      cart.push({
+        product_id: product.product_id,
+        product_name: product.product_name,
+        product_cost: product.product_cost,
+        product_photo: product.product_photo,
+        quantity: quantity
+      });
     }
 
     localStorage.setItem('cart', JSON.stringify(cart));
-    navigate('/cart'); // go to cart after adding
+
+    // Show toast and redirect after 2 seconds
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+      navigate('/cart');
+    }, 2000);
   };
 
   const increment = () => setQuantity(prev => prev + 1);
@@ -41,6 +62,32 @@ const ProductDetails = () => {
 
   return (
     <div className="container mt-5">
+
+      {/* Toast Notification */}
+      <div
+        className="toast-container position-fixed top-0 end-0 p-3"
+        style={{ zIndex: 9999 }}
+      >
+        <div
+          className={`toast align-items-center text-bg-success border-0 ${showToast ? 'show' : 'hide'}`}
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div className="d-flex">
+            <div className="toast-body">
+              Item added to cart!
+            </div>
+            <button
+              type="button"
+              className="btn-close btn-close-white me-2 m-auto"
+              onClick={() => setShowToast(false)}
+              aria-label="Close"
+            ></button>
+          </div>
+        </div>
+      </div>
+
       <div className="row g-4">
         {/* Product Image */}
         <div className="col-md-5">

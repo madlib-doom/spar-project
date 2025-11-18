@@ -52,11 +52,26 @@ const Cart = () => {
   };
 
   const handleCheckout = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (!user) {
+      setShowToast(true);
+
+      setTimeout(() => {
+        setShowToast(false);
+        navigate("/signin");
+      }, 2000);
+
+      return;
+    }
+
     if (cartItems.length === 0) return;
 
-    navigate("/mpesapayment", {
-      state: { totalCost }
-    });
+    navigate("/mpesapayment", { state: { totalCost } });
+  };
+
+  const handleGoShopping = () => {
+    navigate("/products");
   };
 
   return (
@@ -64,33 +79,29 @@ const Cart = () => {
 
       <h2 className="mb-4 text-center text-primary">Your Shopping Cart</h2>
 
-      {/* Toast Notification */}
       <div
-        className="toast-container position-fixed top-0 end-0 p-3"
-        style={{ zIndex: 9999 }}
+        className={`toast align-items-center text-bg-danger border-0 ${showToast ? 'show' : 'hide'}`}
+        role="alert"
       >
-        <div
-          className={`toast align-items-center text-bg-warning border-0 ${showToast ? 'show' : 'hide'}`}
-          role="alert"
-          aria-live="assertive"
-          aria-atomic="true"
-        >
-          <div className="d-flex">
-            <div className="toast-body">
-              <strong>{removedItemName}</strong> was removed from your cart.
-            </div>
-            <button
-              type="button"
-              className="btn-close btn-close-white me-2 m-auto"
-              onClick={() => setShowToast(false)}
-              aria-label="Close"
-            ></button>
+        <div className="d-flex">
+          <div className="toast-body">
+            Please log in to continue.
           </div>
+          <button
+            type="button"
+            className="btn-close btn-close-white me-2 m-auto"
+            onClick={() => setShowToast(false)}
+          ></button>
         </div>
       </div>
 
       {cartItems.length === 0 ? (
-        <p className="text-center">Your cart is empty.</p>
+        <div className="text-center mt-5">
+          <p className="mb-4">Your cart is empty.</p>
+          <button className="btn btn-primary btn-lg" onClick={handleGoShopping}>
+            Go Shopping
+          </button>
+        </div>
       ) : (
         <>
           <div className="list-group mb-4">

@@ -11,6 +11,8 @@ const Signin = () => {
     const [loading,setLoading]=useState(false)
     const[success,setSuccess]=useState("")
     const [error,setError]=useState("")
+    const [showSuccessToast, setShowSuccessToast] = useState(false);
+
 
     const navigate=useNavigate();
 
@@ -35,10 +37,19 @@ const Signin = () => {
 
             setLoading(false)
 
-            if(response.data.message==="Login succesful"){
-                localStorage.setItem("user",JSON.stringify(response.data.user))
-                navigate("/")
-            }
+            if (response.data.message === "Login succesful") {
+    const user = response.data.user;
+    localStorage.setItem("user", JSON.stringify(user));
+
+    setShowSuccessToast(true);
+    setSuccess(`Login successful! Welcome ${user.name}`);
+
+    setTimeout(() => {
+        setShowSuccessToast(false);
+        navigate("/");
+    }, 2000);
+}
+
             else{
                setError( response.data.message)
             }
@@ -58,6 +69,31 @@ const Signin = () => {
     
     {success && <div className="alert alert-success">{success}</div>}
         {error && <div className="alert alert-danger">{error}</div>}
+      
+<div 
+  className="toast-container position-fixed top-0 end-0 p-3"
+  style={{ zIndex: 9999 }}
+>
+  <div 
+    className={`toast align-items-center text-bg-success border-0 ${showSuccessToast ? 'show' : 'hide'}`}
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div className="d-flex">
+    <div className="toast-body">
+  {success}
+</div>
+
+      <button 
+        type="button" 
+        className="btn-close btn-close-white me-2 m-auto" 
+        onClick={() => setShowSuccessToast(false)} 
+      ></button>
+    </div>
+  </div>
+</div>
+
 
                 <form onSubmit={submit}>
                     <label >Enter email here:</label><br />
