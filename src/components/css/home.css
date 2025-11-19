@@ -1,0 +1,71 @@
+.home-hero {
+    /* ensure text block doesn't span too wide and sits a bit left */
+    padding-left: 8%;
+    padding-right: 8%;
+  }
+  
+  .hero-content {
+    max-width: 640px; /* keeps the text readable on large screens */
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+    transform: translateX(0);
+    opacity: 1;
+    /* animation handled by classes below */
+  }
+  
+  /* Entrance animation: slide from left and fade in */
+  .home-hero .hero-content h1,
+  .home-hero .hero-content p,
+  .home-hero .hero-content a {
+    animation: fadeSlide 900ms ease-out both;
+  }
+  
+  .home-hero .hero-content h1 { animation-delay: 100ms; }
+  .home-hero .hero-content p  { animation-delay: 220ms; }
+  .home-hero .hero-content a  { animation-delay: 340ms; }
+  
+  @keyframes fadeSlide {
+    from {
+      opacity: 0;
+      transform: translateX(-18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* product cards: slight lift on hover */
+  .product-card {
+    transition: transform 220ms ease, box-shadow 220ms ease;
+  }
+  .product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  }
+  
+  /* ensure hero looks good on smaller screens */
+  @media (max-width: 767px) {
+    .home-hero {
+      padding-left: 5%;
+      padding-right: 5%;
+      height: 50vh;
+    }
+    .hero-content {
+      max-width: 92%;
+    }
+    .display-4 { font-size: 1.8rem; }
+  }
+  .hover-card {
+    background-color: #343a40;
+    color: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hover-card:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  
+  
+  

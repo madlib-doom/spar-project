@@ -46,13 +46,13 @@ const Store = () => {
             <div className="container">
                 <div className="text-center mb-5">
                     <h1 className="store-title">Welcome to Autmarts Engine Shop</h1>
-                    <p className="store-subtitle">List your high-quality engines and parts with ease.</p>
+                    <p className="store-subtitle">List your high-quality spare parts ranging from engine to other car parts!🚙</p>
                 </div>
 
                 <div className="row justify-content-center">
                     <div className="col-md-8">
                         <div className="card shadow-sm p-5">
-                            <h4 className="mb-4 text-primary">Add Your Engine or Part</h4>
+                            <h4 className="mb-4 text-primary">Fill in the form below to sell you spare part!</h4>
 
                             {loading && <Loader />}
                             {success && <div className="alert alert-success">{success}</div>}
@@ -60,7 +60,7 @@ const Store = () => {
 
                             <form onSubmit={submit} className="store-form">
                                 <div className="mb-3">
-                                    <label className="form-label">Product Name</label>
+                                    <label className="form-label">Spare part name</label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -72,7 +72,7 @@ const Store = () => {
                                 </div>
 
                                 <div className="mb-3">
-                                    <label className="form-label">Description</label>
+                                    <label className="form-label">Spare part Description</label>
                                     <textarea
                                         className="form-control"
                                         placeholder="Provide a detailed description of your product"

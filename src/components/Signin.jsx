@@ -25,35 +25,36 @@ const Signin = () => {
         
     
     
-
-        try{
-            
-            const data=new FormData();
-            
-            data.append("email",email)
-            data.append("password",password)
-    
-            const response=await axios.post("https://aarondev.pythonanywhere.com/api/signin",data)
-
-            setLoading(false)
-
-            if (response.data.message === "Login succesful") {
-    const user = response.data.user;
-    localStorage.setItem("user", JSON.stringify(user));
-
-    setShowSuccessToast(true);
-    setSuccess(`Login successful! Welcome ${user.name}`);
-
-    setTimeout(() => {
-        setShowSuccessToast(false);
-        navigate("/");
-    }, 2000);
-}
-
-            else{
-               setError( response.data.message)
-            }
-    }
+        try {
+          const data = new FormData();
+          data.append("email", email);
+          data.append("password", password);
+      
+          const response = await axios.post("https://aarondev.pythonanywhere.com/api/signin", data);
+      
+          setLoading(false);
+      
+          if (response.data.message === "Login succesful") {
+              const user = response.data.user;
+      
+              
+              localStorage.setItem("user", JSON.stringify(user));
+      
+              setSuccess(`Login successful! Welcome ${user.name}`);
+              setShowSuccessToast(true);
+      
+              setTimeout(() => {
+                  navigate("/");
+              }, 2000);
+      
+           
+              setEmail("");
+              setPassword("");
+          } else {
+              setError(response.data.message);
+          }
+      }
+      
     catch(error){
         setLoading(false)
         setError("An error occured")

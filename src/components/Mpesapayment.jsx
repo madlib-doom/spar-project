@@ -6,21 +6,18 @@ import Loader from './Loader';
 const Mpesapayment = () => {
   const location = useLocation();
   const [totalCost, setTotalCost] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
 
-  // Load cost from state or fallback to localStorage
   useEffect(() => {
+    const stateCart = location.state?.cartItems || [];
     const stateCost = location.state?.totalCost;
-    const localCost = localStorage.getItem('totalCost');
 
-    if (stateCost) {
-      setTotalCost(stateCost);
-    } else if (localCost) {
-      setTotalCost(parseFloat(localCost));
-    }
+    setCartItems(stateCart);
+    setTotalCost(stateCost);
   }, [location.state]);
 
   const submit = async (e) => {
@@ -30,19 +27,45 @@ const Mpesapayment = () => {
     setError('');
 
     try {
-      const data = new FormData();
-      data.append("phone", phone);
-      data.append("amount", totalCost);
+      const form = new FormData();
+      form.append("phone", phone);
+      form.append("amount", totalCost);
 
       const response = await axios.post(
         "https://aarondev.pythonanywhere.com/api/mpesa_payment",
-        data
+        form
       );
 
       setSuccess(response.data.message);
+
+     
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user) {
+        let purchaseCount = user.purchaseCount || 0;
+        purchaseCount++;
+
+        const productNames = cartItems.map(item => item.product_name);
+
+        const newOrder = {
+          amount: totalCost,
+          date: new Date().toLocaleString(),
+          products: productNames
+        };
+
+        let orderHistory = user.orderHistory || [];
+       orderHistory.push(newOrder);
+
+        let coupon = user.coupon || "";
+        if (purchaseCount > 10 && !coupon) {
+          coupon = "GOLD-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+        }
+
+        const updatedUser = { ...user, purchaseCount, orderHistory, coupon };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+      }
+
       localStorage.removeItem("cart");
-      localStorage.removeItem("totalCost");
-    } catch (err) {
+    } catch {
       setError("Payment failed. Please try again.");
     } finally {
       setLoading(false);
@@ -50,28 +73,20 @@ const Mpesapayment = () => {
   };
 
   return (
-    <div className='row justify-content-center mt-4'>
-      <h2 className='text-success'>Lipa na M-Pesa</h2>
+    <div className="row justify-content-center mt-4">
+      <h2 className="text-success">Lipa na M-Pesa</h2>
 
       <div className="col-md-6">
         <div className="card shadow p-4">
+
           <form onSubmit={submit}>
-            <label>Fill in the details to complete the transaction:</label>
             {loading && <Loader />}
             {success && <div className="alert alert-success">{success}</div>}
             {error && <div className="alert alert-danger">{error}</div>}
 
-            {/* Display readonly total amount */}
-            <input
-  type="text"
-  className="form-control"
-  value={`KES ${totalCost.toLocaleString()}`}
-  readOnly
-/>
-
+            <input type="text" className="form-control" value={`KES ${totalCost.toLocaleString()}`} readOnly />
             <br />
 
-            {/* Phone number input */}
             <input
               type="number"
               placeholder="Enter phone number e.g. 2547..."
@@ -82,10 +97,9 @@ const Mpesapayment = () => {
             />
             <br />
 
-            <button className="btn btn-success w-100">
-              Complete Transaction
-            </button>
+            <button className="btn btn-success w-100">Complete Transaction</button>
           </form>
+
         </div>
       </div>
     </div>
