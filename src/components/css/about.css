@@ -1,48 +1,214 @@
+/* ---- GLOBAL TYPOGRAPHY ---- */
 .about-us {
-    background-color: #f4f4f4;
-    padding: 60px 20px;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  .about-us .container {
-    max-width: 1000px;
-    margin: auto;
-    text-align: center;
-  }
-  
-  .about-us h2 {
-    font-size: 2.5rem;
-    color: #2c3e50;
-    margin-bottom: 20px;
-  }
-  
-  .about-us p {
-    font-size: 1.1rem;
-    color: #555;
-    line-height: 1.7;
-  }
-  
+  padding: 55px 0;
+  position: relative;
+  background: #ffffff;
+  color: #1f1f1f;
+
+  /* clean readable web-safe sans-serif font */
+  font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ---- HEADINGS ---- */
+.about-us h2 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 1.3rem;
+  color: #0d1b2a;
+}
+
+.about-details h3 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+  color: #1c335a;
+}
+
+/* ---- PARAGRAPHS ---- */
+.about-us p,
+.about-us li {
+  font-size: 1.05rem;       /* readable size */
+  line-height: 1.72;        /* easier long-text reading */
+  font-weight: 400;
+  color: #2e2e2e;
+}
+
+/* Intro paragraph slightly larger */
+.about-paragraph {
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: #16bfc5;
+  margin-bottom: 1.8rem;
+}
+
+/* ---- DETAILS GRID ---- */
+.about-details {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.8rem;
+}
+
+.detail {
+  background: #f7f9fc;
+  padding: 20px 22px;
+  border-radius: 10px;
+  border: 1px solid #e5e9f0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.detail ul {
+  margin: 0.6rem 0 0 1rem;
+}
+
+/* ---- FOOTNOTE TEXT ---- */
+.small.text-muted {
+  font-size: 0.95rem !important;
+  color: #5f5f5f !important;
+  line-height: 1.6;
+  margin-top: 1.8rem;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (min-width: 768px) {
   .about-details {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 40px;
-    gap: 40px;
+    grid-template-columns: repeat(3, 1fr);
   }
-  
-  .detail {
-    max-width: 400px;
-    text-align: left;
+}
+
+/* ---- TTS BUTTONS ---- */
+.tts-control {
+  position: fixed;
+  right: 18px;
+  top: 45%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 2000;
+}
+
+.tts-btn {
+  width: 58px;
+  height: 58px;
+  background: #0d6efd;
+  color: #fff;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(13,110,253,0.18);
+  transition: 0.15s ease;
+}
+
+.tts-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(13,110,253,0.25);
+}
+
+.tts-btn.speaking {
+  background: #dc3545;
+}
+
+.tts-stop {
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+
+/* A11Y helper */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .tts-control {
+    right: 10px;
+    bottom: 20px;
+    top: auto;
+    flex-direction: row;
   }
-  
-  .detail h3 {
-    color: #34495e;
-    margin-bottom: 10px;
+  .tts-btn {
+    width: 48px;
+    height: 48px;
   }
-  
-  .detail ul {
-    padding-left: 20px;
-    list-style-type: disc;
-    color: #444;
-  }
-  
+}
+.about-us {
+  padding: 70px 0;
+  position: relative;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  color: white;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6); /* darkens background for readable text */
+  z-index: 1;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+}
+
+.title {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.intro {
+  font-size: 20px;
+  line-height: 1.7;
+  margin-bottom: 35px;
+  max-width: 900px;
+}
+
+.about-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.detail h3 {
+  font-size: 26px;
+  font-weight: 650;
+  margin-bottom: 12px;
+}
+
+.detail p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.speech-icon {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  font-size: 40px;
+  cursor: pointer;
+  background: #ffffffaa;
+  padding: 12px 16px;
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
+  transition: 0.3s ease;
+}
+
+.speech-icon:hover {
+  background: #ffffffdd;
+  transform: scale(1.1);
+}
+

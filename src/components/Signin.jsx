@@ -40,12 +40,12 @@ const Signin = () => {
               
               localStorage.setItem("user", JSON.stringify(user));
       
-              setSuccess(`Login successful! Welcome ${user.name}`);
+              setSuccess(`Login successful! Welcome ${user.user_name}`);
               setShowSuccessToast(true);
       
               setTimeout(() => {
                   navigate("/");
-              }, 2000);
+              }, 1000);
       
            
               setEmail("");
@@ -81,7 +81,9 @@ const Signin = () => {
     aria-live="assertive"
     aria-atomic="true"
   >
-    <div className="d-flex">
+    <div className="d-flex" style={{
+      fontFamily:'sans-serif'
+    }}>
     <div className="toast-body">
   {success}
 </div>

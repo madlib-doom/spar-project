@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Chatbot from './Chatbot';
-import './css/home.css'; // see CSS below (place in src/styles/Home.css or same folder)
+import './css/home.css'; 
 
 const Home = () => {
   return (
     <div className="bg-dark text-white home-page">
 
-      {/* Hero */}
+     
       <div
         className="home-hero d-flex justify-content-center text-start"
         style={{
@@ -23,8 +23,19 @@ const Home = () => {
         }}
       >
         <div className="hero-content" style={{ zIndex: 2 }}>
-          <h1 className="display-4 fw-bold">Welcome to our Automart Engines Shop</h1>
-          <p className="lead">Your one-stop shop for quality automotive engines</p>
+          <h1  style={{
+            fontFamily:"sans-serif",
+            fontSize:'30px',
+            fontWeight:'bold',
+            fontVariant:'all-small-caps'
+          }}
+          className="display-4 fw-bold">Welcome to our Automart Spare part Shop</h1>
+          <p style={{
+            fontFamily:'serif',
+            fontStyle:'italic',
+            textAlign:'center'
+
+          }} className="lead">Your one-stop shop for quality Spare Parts</p>
           <Link to="/products" className="btn btn-warning btn-lg mt-3">
             Browse Products
           </Link>
@@ -46,7 +57,11 @@ const Home = () => {
      {/* Quick Links Section */}
 {/* Quick Links Section */}
 <div className="container my-5">
-  <h2 className="text-center mb-3">Our spare parts include:</h2>
+  <h2 style={{
+    fontFamily:'serif',
+    fontStyle:'italic',
+    textAlign:'center'
+  }}className="text-center mb-3">Our spare parts include:</h2>
   <p className="text-center text-muted mb-4">Popular categories</p>
 
   <div className="row row-cols-1 row-cols-md-3 g-4">
@@ -112,18 +127,21 @@ const Home = () => {
   </div>
 </div>
 
-<Link to="/products" 
+
+<h5 className='text-center text-success '>Click <Link to="/products" 
   style={{
   textDecoration: 'none',    
-    color: 'white',           
+    color: 'green',           
 
-    padding: '10px 20px',      
+   
            
     display: 'inline-block',    
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    
 
-}}><h1 className='text-center text-success '>Click here to view more products</h1>
-</Link>
+}}>here
+</Link> to view more products</h5>
+
 
       
 
