@@ -4,12 +4,15 @@ import Loader from './Loader';
 import axios from 'axios';
 import './css/Product.css'; // Optional: for custom styling
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
 const Products = () => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
+    const [sortOption, setSortOption] = useState("default"); // <-- sort state
 
     const navigate = useNavigate();
     const img_url = "https://rexkinoo.pythonanywhere.com/static/images/";
@@ -22,8 +25,7 @@ const Products = () => {
         setLoading(true);
         try {
             const response = await axios.get("https://rexkinoo.pythonanywhere.com/api/getproducts");
-            setProducts(response.data);
-            setFilteredProducts(response.data);
+            setProducts(response.data || []);
             setLoading(false);
         } catch (err) {
             setError("An error occurred. Please try again later.");
@@ -35,32 +37,62 @@ const Products = () => {
         fetchProducts();
     }, []);
 
-    // Dynamic search
-    useEffect(() => {
-        if (!searchTerm) {
-            setFilteredProducts(products);
-        } else {
-            const term = searchTerm.toLowerCase();
-            const filtered = products.filter(p =>
-                p.product_name.toLowerCase().includes(term) ||
-                p.product_description.toLowerCase().includes(term)
-            );
-            setFilteredProducts(filtered);
-        }
-    }, [searchTerm, products]);
+  
+    const costOf = (p) => {
+        const c = p?.product_cost;
+        const n = Number(c);
+        return isNaN(n) ? 0 : n;
+    };
 
-    // Highlight search matches
+    useEffect(() => {
+      
+        let temp = products.slice(); 
+        if (searchTerm && searchTerm.trim()) {
+            const term = searchTerm.toLowerCase();
+            temp = temp.filter(p =>
+                (p.product_name || "").toLowerCase().includes(term) ||
+                (p.product_description || "").toLowerCase().includes(term)
+            );
+        }
+
+        
+        switch (sortOption) {
+            case "price_low":
+                temp.sort((a, b) => costOf(a) - costOf(b));
+                break;
+            case "price_high":
+                temp.sort((a, b) => costOf(b) - costOf(a));
+                break;
+            case "name_asc":
+                temp.sort((a, b) => (a.product_name || "").localeCompare(b.product_name || ""));
+                break;
+            case "name_desc":
+                temp.sort((a, b) => (b.product_name || "").localeCompare(a.product_name || ""));
+                break;
+            default:
+                
+                break;
+        }
+
+        setFilteredProducts(temp);
+    }, [products, searchTerm, sortOption]);
+
+
     const highlightText = (text) => {
         if (!searchTerm) return text;
-        const regex = new RegExp(`(${searchTerm})`, "gi");
-        return text.split(regex).map((part, index) =>
+        const regex = new RegExp(`(${escapeRegExp(searchTerm)})`, "gi");
+        return String(text).split(regex).map((part, index) =>
             regex.test(part) ? <span key={index} className="bg-warning">{part}</span> : part
         );
     };
 
+    const escapeRegExp = (string) => {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    };
+
     return (
         <div className="container mt-4">
-            {/* Carousel for featured products */}
+         
             {products.length > 0 && (
                 <div id="productsCarousel" className="carousel slide mb-5" data-bs-ride="carousel">
                     <div className="carousel-inner">
@@ -74,7 +106,7 @@ const Products = () => {
                                 />
                                 <div className="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
                                     <h5>{p.product_name}</h5>
-                                    <p>{p.product_description.slice(0, 50)}...</p>
+                                    <p>{(p.product_description || "").slice(0, 10)}...</p>
                                 </div>
                             </div>
                         ))}
@@ -92,8 +124,7 @@ const Products = () => {
 
             <h1 className="text-success text-center mb-4">Available Engines</h1>
 
-            {/* Google-style search bar */}
-            <div className="mb-4 d-flex justify-content-center">
+            <div className="mb-4 d-flex align-items-center justify-content-center position-relative">
                 <input
                     type="text"
                     className="form-control w-50 shadow-sm google-search-bar"
@@ -102,6 +133,49 @@ const Products = () => {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     autoFocus
                 />
+
+              
+                <div style={{ position: 'absolute', right: 0, top: 0 }}>
+                    <div className="btn-group">
+                        <button
+                            type="button"
+                            className="btn btn-outline-secondary dropdown-toggle"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                        >
+                            Sort
+                        </button>
+                        <ul className="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <button className={`dropdown-item ${sortOption === 'default' ? 'active' : ''}`} onClick={() => setSortOption('default')}>
+                                    Clear Sort
+                                </button>
+                            </li>
+                            <li><hr className="dropdown-divider" /></li>
+                            <li>
+                                <button className={`dropdown-item ${sortOption === 'price_low' ? 'active' : ''}`} onClick={() => setSortOption('price_low')}>
+                                    Price: Low → High
+                                </button>
+                            </li>
+                            <li>
+                                <button className={`dropdown-item ${sortOption === 'price_high' ? 'active' : ''}`} onClick={() => setSortOption('price_high')}>
+                                    Price: High → Low
+                                </button>
+                            </li>
+                            <li><hr className="dropdown-divider" /></li>
+                            <li>
+                                <button className={`dropdown-item ${sortOption === 'name_asc' ? 'active' : ''}`} onClick={() => setSortOption('name_asc')}>
+                                    Name: A → Z
+                                </button>
+                            </li>
+                            <li>
+                                <button className={`dropdown-item ${sortOption === 'name_desc' ? 'active' : ''}`} onClick={() => setSortOption('name_desc')}>
+                                    Name: Z → A
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
             {loading && <Loader />}
@@ -115,7 +189,7 @@ const Products = () => {
                 {filteredProducts.map((product, index) => {
                     const stock = generateRandomStock();
                     return (
-                        <div className="col-md-3 mb-4" key={index}>
+                        <div className="col-md-3 mb-4" key={product.id ?? index}>
                             <div className="card shadow h-100">
                                 <img
                                     src={img_url + product.product_photo}
@@ -125,7 +199,7 @@ const Products = () => {
                                 />
                                 <div className="card-body">
                                     <h5 className="text-primary">{highlightText(product.product_name)}</h5>
-                                    <p className="text-info">{highlightText(product.product_description.slice(0, 20))}...</p>
+                                    <p className="text-info">{highlightText((product.product_description || "").slice(0, 20))}...</p>
                                     <b className="text-danger">Ksh. {product.product_cost}</b>
                                     <p className={stock > 0 ? 'text-success' : 'text-danger'}>
                                         {stock > 0 ? `${stock} in stock` : 'Out of stock'}

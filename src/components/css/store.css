@@ -1,43 +1,257 @@
-.store-page {
+/* -----------------------
+   Main store layout & hero
+   ----------------------- */
+   .store-page {
     min-height: 100vh;
-    background: #f8f9fa;
-}
-
-.store-title {
-    font-weight: 700;
-    color: #1a73e8;
-}
-
-.store-subtitle {
+    background: #f8f9fa; /* your background */
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    padding-bottom: 60px;
+  }
+  
+  .store-hero {
+    background: linear-gradient(90deg, #0d6efd 0%, #2a9df4 100%);
+    color: white;
+    padding: 48px 0;
+    margin-bottom: 24px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+  
+  .store-title {
+    margin: 0;
+    font-size: 2.1rem;
+    font-weight: 700; /* kept from your rule */
+    color: #1a73e8;   /* kept */
+    letter-spacing: -0.02em;
+  }
+  
+  .store-sub {
+    margin-top: 8px;
+    opacity: 0.95;
+  }
+  
+  .store-subtitle {
     font-size: 1.1rem;
-    color: #555;
-}
-
-.card {
-    border-radius: 15px;
-}
-
-.store-form .form-label {
+    color: #555; /* kept from your rule */
+    margin-top: 6px;
+  }
+  
+  /* -----------------------
+     Card & form base styles
+     ----------------------- */
+  .card,
+  .store-card {
+    border-radius: 15px; /* kept from your rule */
+    background: #fff;
+    padding: 28px;
+    transition: box-shadow .15s ease;
+  }
+  
+  .store-card:hover {
+    box-shadow: 0 10px 30px rgba(18, 38, 63, 0.08);
+  }
+  
+  /* keep your form label style but scope it */
+  .store-form .form-label,
+  .store-form label {
     font-weight: 500;
     color: #333;
-}
-
-.store-form input.form-control,
-.store-form textarea.form-control {
+  }
+  
+  /* Inputs and textareas — merge your rules with polished styling */
+  .store-form input.form-control,
+  .store-form textarea.form-control,
+  .input-ghost {
     border-radius: 10px;
     padding: 12px;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.btn-success {
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+    border: 1px solid #e6eef9;
+    background: #fbfdff;
+    transition: border-color .12s ease, box-shadow .12s ease;
+  }
+  
+  .store-form input.form-control:focus,
+  .store-form textarea.form-control:focus,
+  .input-ghost:focus {
+    outline: none;
+    border-color: rgba(13,110,253,0.9);
+    box-shadow: 0 4px 18px rgba(13,110,253,0.08);
+  }
+  
+  /* File input */
+  .custom-file-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .file-input {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px dashed #e0e7ee;
+    background: #fff;
+    cursor: pointer;
+  }
+  
+  .file-input:focus {
+    outline: none;
+    border-color: rgba(13,110,253,0.7);
+  }
+  
+  .file-hint {
+    font-size: 12px;
+    color: #6c757d;
+    margin-top: 6px;
+  }
+  
+  /* -----------------------
+     Buttons
+     ----------------------- */
+  /* keep your .btn-success styles but refine */
+  .btn-success {
     background-color: #28a745;
     border-color: #28a745;
     font-weight: 600;
     font-size: 1rem;
     transition: all 0.3s ease;
-}
-
-.btn-success:hover {
+    padding: 10px 16px;
+    border-radius: 10px;
+  }
+  
+  .btn-success:hover {
     background-color: #218838;
     border-color: #1e7e34;
-}
+    transform: translateY(-1px);
+    box-shadow: 0 10px 28px rgba(13,110,253,0.04);
+  }
+  
+  /* Primary submit used in store */
+  .btn-submit {
+    padding: 12px 18px;
+    border-radius: 10px;
+    font-weight: 600;
+    background: linear-gradient(180deg, #0d6efd 0%, #0b5ed7 100%);
+    border: none;
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(13,110,253,0.12);
+  }
+  
+  .btn-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 28px rgba(13,110,253,0.14);
+  }
+  
+  /* -----------------------
+     Loader & hints
+     ----------------------- */
+  .loader-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  
+  .store-hint {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #6c757d;
+  }
+  
+  /* -----------------------
+     Toast Portal & styles
+     ----------------------- */
+  .toast-portal {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 1200;
+    pointer-events: none;
+  }
+  
+  .app-toast {
+    min-width: 320px;
+    max-width: 420px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(2,6,23,0.12);
+    overflow: hidden;
+    pointer-events: auto;
+    animation: toast-in .18s ease-out;
+    border-left: 4px solid transparent;
+  }
+  
+  .toast-success {
+    border-left-color: #28a745;
+  }
+  
+  .toast-error {
+    border-left-color: #dc3545;
+  }
+  
+  .toast-body {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 12px;
+  }
+  
+  .toast-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(13,110,253,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #0d6efd;
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 18px;
+  }
+  
+  .toast-title {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  
+  .toast-message {
+    font-size: 13px;
+    color: #445566;
+  }
+  
+  .toast-close {
+    margin-left: auto;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    color: #888;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+  }
+  .toast-close:hover {
+    background: rgba(0,0,0,0.04);
+  }
+  
+  /* -----------------------
+     Responsive tweaks
+     ----------------------- */
+  @media (max-width: 992px) {
+    .store-card { padding: 20px; }
+  }
+  
+  @media (max-width: 576px) {
+    .app-toast { min-width: 260px; right: 12px; left: 12px; }
+    .store-card { padding: 18px; }
+    .store-hero { padding: 28px 12px; border-radius: 0; }
+    .store-title { font-size: 1.6rem; }
+  }
+  
+  /* -----------------------
+     Animations
+     ----------------------- */
+  @keyframes toast-in {
+    from { transform: translateY(-8px) scale(.995); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  

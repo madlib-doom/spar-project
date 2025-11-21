@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -8,7 +9,11 @@ const Footer = () => {
 
           {/* About Us */}
           <div className="col-md-4 mb-4">
-            <h5>🚗 About Us</h5>
+            <Link to='/about' style={{
+              textDecoration:'none',
+             fontSize:"10px"
+             
+            }}>🚗 About Us</Link>
             <p>
               We are your trusted shop for high-quality automotive engines. 
               Whether you're repairing or upgrading, we've got the engine you need!

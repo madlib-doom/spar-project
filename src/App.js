@@ -18,6 +18,7 @@ import Cart from './components/Cart';
 import Products from './components/Products';
 import Profile from './components/Profile';
 import Account from './components/Account';
+import Delivery from './components/Delivery';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
           <Route path='/products' element={<Products/>}/>
           <Route path='/profile' element={<Profile/>}/>
           <Route path='/account' element={<Account/>}/>
+          <Route path='/delivery' element={<Delivery/>}/>
           
         
         </Routes>
